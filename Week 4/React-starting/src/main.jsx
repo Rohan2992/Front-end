@@ -1,5 +1,19 @@
 import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
+import ToDoListPost from "./ToDoListPost";
+import ToDoListGet from "./ToDoListGet";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./index.css";
 
-ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+const appRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <ToDoListPost />
+  },
+  {
+    path: "/toDoList",
+    element: <ToDoListGet />
+  }
+]);
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<RouterProvider router={appRouter} />);
