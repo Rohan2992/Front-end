@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import AppBar from "./AppBar";
 import Card from "@mui/material/Card";
 import "./App.css";
 
@@ -26,6 +27,7 @@ function App() {
   const toDo = useToDo();
   return (
     <center>
+      <AppBar />
       <h1>To-Do List</h1>
       {toDo.length
         ? <div style={{ display: "flex", flexWrap: "wrap", margin: "10px" }}>

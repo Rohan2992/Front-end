@@ -1,4 +1,6 @@
 import { useState } from "react";
+import AppBar from "./AppBar";
+
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
@@ -8,7 +10,8 @@ const ToDoListPost = () => {
 
   return (
     <center>
-      <h1 style={{padding:30}}>To-Do List</h1>
+      <AppBar />
+      <h1 style={{ padding: 30 }}>To-Do List</h1>
       <Card sx={{ p: 5 }} variant="outlined">
         <TextField
           style={{ margin: 10 }}

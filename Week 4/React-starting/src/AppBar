@@ -1,0 +1,22 @@
+import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
+
+const AppBar = () => {
+  return (
+    <center style={{ position: "absolute", top: 10, left: "40%" }}>
+      <div>
+        <h1>LIST()</h1>
+        <Link to="/">
+          <Button sx={{ m: 4 }} variant="text">
+            Create To-Do
+          </Button>
+        </Link>
+        <Link to="/toDoList">
+          <Button variant="text">View To-Do</Button>
+        </Link>
+      </div>
+    </center>
+  );
+};
+
+export default AppBar;
