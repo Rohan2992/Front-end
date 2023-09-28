@@ -1,16 +1,18 @@
 /* eslint-disable react/prop-types */
-import { useState, useContext, createContext } from "react";
 import "./App.css";
+import {RecoilRoot, atom, useRecoilValue,useSetRecoilState} from "recoil";
 
-const counterContext = createContext();
+const counterState = atom({key: "counter", default: 0});
 
 function ButtonsComponent({ name }) {
-  const { count, setCount } = useContext(counterContext);
+  const setCount = useSetRecoilState(counterState);
   return (
     <button
       style={{ padding: "2rem" }}
       onClick={() => {
-        name === "Increase Counter" ? setCount(count + 1) : setCount(count - 1);
+        name === "Increase Counter"
+          ? setCount((c) => c + 1)
+          : setCount((c) => c - 1);
       }}
     >
       {name}
@@ -19,31 +21,24 @@ function ButtonsComponent({ name }) {
 }
 
 function DisplayCounter() {
-  const { count } = useContext(counterContext);
-
-  return (
-    <>
-      {count}
-    </>
-  );
+  const count = useRecoilValue(counterState);
+  return <>{count}</>;
 }
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <counterContext.Provider value={{ count, setCount }}>
+    <RecoilRoot>
       <div style={{ padding: "2rem" }}>
         <h1>Welcome to the Counter game</h1>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <ButtonsComponent name="Increase Counter" />
           <ButtonsComponent name="Decrease Counter" />
+          <ButtonsComponent name="Increase Counter" />
         </div>
         <p style={{ textAlign: "center" }}>
           <DisplayCounter />
         </p>
       </div>
-    </counterContext.Provider>
+    </RecoilRoot>
   );
 }
 
