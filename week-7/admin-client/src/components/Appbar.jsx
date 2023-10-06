@@ -1,29 +1,20 @@
 import {Typography} from "@mui/material";
 import Button from "@mui/material/Button";
-import { useEffect, useState } from "react";
-import {useNavigate} from "react-router-dom";
-import { BASE_URL } from "../config.js";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { isUserLoading } from "../store/selectors/isUserLoading";
+import {useSetRecoilState, useRecoilValue} from "recoil";
+import { userState } from "../store/atoms/user.js";
+import { userEmailState } from "../store/selectors/userEmail"
 
-function Appbar() {
+function Appbar({}) {
     const navigate = useNavigate()
-    const [userEmail, setUserEmail] = useState(null);
+    const userLoading = useRecoilValue(isUserLoading);
+    const userEmail = useRecoilValue(userEmailState);
+    const setUser = useSetRecoilState(userState);
 
-    const init = async() => {
-        const response = await axios.get(`${BASE_URL}/admin/me`, {
-            headers: {
-                "Authorization": "Bearer " + localStorage.getItem("token")
-            }
-        })
-
-        if (response.data.username) {
-            setUserEmail(response.data.username)
-        }
-    };
-
-    useEffect(() => {
-       init();
-    }, []);
+    if (userLoading) {
+        return <></>
+    }
 
     if (userEmail) {
         return <div style={{
@@ -60,7 +51,10 @@ function Appbar() {
                         variant={"contained"}
                         onClick={() => {
                             localStorage.setItem("token", null);
-                            window.location = "/";
+                            setUser({
+                                isLoading: false,
+                                userEmail: null
+                            })
                         }}
                     >Logout</Button>
                 </div>
