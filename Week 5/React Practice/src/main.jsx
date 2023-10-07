@@ -1,10 +1,13 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import ClassComponent from "./ClassComponent"
-import './index.css'
+import React, { lazy, Suspense } from "react";
+import ReactDOM from "react-dom/client";
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+import "./index.css";
+const App = lazy(() => import("./App"));
+
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-  <ClassComponent />
-  </React.StrictMode>,
-)
+    <Suspense fallback=<h1>New Comp...</h1>>
+      <App />
+    </Suspense>
+  </React.StrictMode>
+);

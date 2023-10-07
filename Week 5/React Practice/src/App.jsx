@@ -1,47 +1,40 @@
-/* eslint-disable react/prop-types */
-import "./App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import ClassComponent from "./ClassComponent"
 
-function ButtonsComponent({ name, count, setCount }) {
+function handleOnline(set) {
+  set("true");
+}
+
+function handleOffline(set) {
+  set("false");
+}
+
+function useGiveStatus() {
+  const [status, setState] = useState("true");
+  useEffect(() => {
+    window.addEventListener("online", () => handleOnline(setState));
+    window.addEventListener("offline", () => handleOffline(setState));
+
+    return () => {
+      removeEventListener("online", handleOnline);
+      removeEventListener("offline", handleOffline);
+    };
+  }, []);
+
+  return status;
+}
+const OnlineStatus = () => {
+  const status = useGiveStatus();
+
   return (
-    <button
-      style={{ padding: "2rem" }}
-      onClick={() => {
-        name === "Increase Counter" ? setCount(count + 1) : setCount(count - 1);
-      }}
-    >
-      {name}
-    </button>
+    <>
+    <ClassComponent />
+    <h1>
+      online status :{status}
+    </h1>
+
+    </>
   );
-}
+};
 
-function DisplayCounter({ count }) {
-  return <>{count}</>;
-}
-
-function App() {
-  const [count, setCount] = useState(0);
-
-  return (
-    <div style={{ padding: "2rem" }}>
-      <h1>Welcome to the Counter game</h1>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <ButtonsComponent
-          name="Decrease Counter"
-          count={count}
-          setCount={setCount}
-        />
-        <ButtonsComponent
-          name="Increase Counter"
-          count={count}
-          setCount={setCount}
-        />
-      </div>
-      <p style={{ textAlign: "center" }}>
-        <DisplayCounter count={count} />
-      </p>
-    </div>
-  );
-}
-
-export default App;
+export default OnlineStatus;
